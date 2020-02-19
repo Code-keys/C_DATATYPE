@@ -1,0 +1,31 @@
+enum AlertTableSections
+	{
+
+	kUIAction_Simple_Section = 0,/*默认从0开始枚举*/
+
+	kUIAction_OKCancel_Section,
+
+	kUIAction_Custom_Section,
+
+	kUIAlert_Simple_Section,
+
+	kUIAlert_OKCancel_Section,
+
+	kUIAlert_Custom_Section,
+
+	}; 
+typedef enum {
+
+    UIButtonTypeCustom = 23 ,           // no button type
+
+    UIButtonTypeRoundedRect,          // rounded rect, flat white button, like in address card
+
+    UIButtonTypeDetailDisclosure,
+
+    UIButtonTypeInfoLight,
+
+    UIButtonTypeInfoDark,
+
+    UIButtonTypeContactAdd,
+
+	} UIButtonType;

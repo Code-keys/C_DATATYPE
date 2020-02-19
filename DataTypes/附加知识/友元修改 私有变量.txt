@@ -1,0 +1,36 @@
+﻿	/*https://blog.csdn.net/qq_35886593/article/details/88872116https://blog.csdn.net/qq_35886593/article/details/88872116*/
+	/*https://blog.csdn.net/qq_35886593/article/details/88872116https://blog.csdn.net/qq_35886593/article/details/88872116*/
+class ren;
+
+class shen
+{
+public:
+	void modify(ren t ,char* name){t.name = name;};//友元函数
+
+};
+
+class ren
+{
+pubic:
+	friend void gaiming（ren xiaogang ,int name）{xiaogang.name = name;};//友元函数 ONE
+	friend class shen;  //友元类 ALL 
+	friend shen::modify(ren xiaogang ,int name);//友元lei函数 one
+
+private：
+	char* mane;
+
+};
+
+int main()
+{
+	ren cx;
+	gaiming(cx,"wit");
+	
+	shen God;
+	God.modify(cx,"rf");
+	
+	
+	
+}
+
+

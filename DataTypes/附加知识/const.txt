@@ -1,0 +1,104 @@
+﻿const成员函数
+
+
+
+当类的对象被限定为const对象时：
+
+ 
+const MyClass myobject;
+
+
+从类外部对其数据成员的访问被限制为只读，就好像其所有数据成员都是const从类外部访问它们的那些成员一样。但是请注意，构造函数仍被调用，并允许初始化和修改这些数据成员：
+
+
+// constructor on const object
+#include <iostream>
+using namespace std;
+
+class MyClass {
+  public:
+    int x;
+    MyClass(int val) : x(val) {}
+    int get() {return x;}
+};
+
+int main() {
+  const MyClass foo(10);
+// foo.x = 20;            // not valid: x cannot be modified
+  cout << foo.x << '\n';  // ok: data member x can be read
+  return 0;
+}
+10
+ 编辑并运行
+
+
+const如果对象 的成员函数本身被指定为const成员，则只能调用它们。在上面的示例中，无法从中调用member get（未指定为const）foo。为了指定成员是const成员，const关键字应在函数原型之后，并在其参数的右括号后：
+
+ 
+int get() const {return x;}
+
+
+注意，const可以用来限定成员函数返回的类型。这const与将成员指定为的方式不同const。两者都是独立的，并且位于函数原型中的不同位置：
+
+int get() const {return x;}        // const member function
+const int& get() {return x;}       // member function returning a const&
+const int& get() const {return x;} // const member function returning a const& 
+
+
+指定为的成员函数const不能修改非静态数据成员，也不能调用其他非const成员函数。本质上，const成员不得修改对象的状态。
+
+const对象仅限于访问标记为的成员函数const，但非const对象不受限制，因此可以访问const非const成员函数。
+
+您可能认为无论如何您很少会声明const对象，因此将所有不修改该对象的成员标记为const并不值得，但是const对象实际上很常见。大多数将类作为参数的函数实际上都是通过const引用来获取的，因此，这些函数只能访问其const成员：
+
+// const objects
+#include <iostream>
+using namespace std;
+
+class MyClass {
+    int x;
+  public:
+    MyClass(int val) : x(val) {}
+    const int& get() const {return x;}
+};
+
+void print (const MyClass& arg) {
+  cout << arg.get() << '\n';
+}
+
+int main() {
+  MyClass foo (10);
+  print(foo);
+
+  return 0;
+}
+10
+ 编辑并运行
+
+
+如果在此示例get中未指定为const成员，则将无法arg.get()在print函数中进行调用，因为const对象只能访问const成员函数。
+
+成员函数可以在其constness上重载：即，一个类可能具有两个具有相同签名的成员函数，除了一个是const，另一个不是：在这种情况下，const仅当对象本身是const时才调用版本，而非const当对象本身不是- 时，将调用-version const。
+
+// overloading members on constness
+#include <iostream>
+using namespace std;
+
+class MyClass {
+    int x;
+  public:
+    MyClass(int val) : x(val) {}
+    const int& get() const {return x;}
+    int& get() {return x;}
+};
+
+int main() {
+  MyClass foo (10);
+  const MyClass bar (20);
+  foo.get() = 15;         // ok: get() returns int&
+// bar.get() = 25;        // not valid: get() returns const int&
+  cout << foo.get() << '\n';
+  cout << bar.get() << '\n';
+
+  return 0;
+}
